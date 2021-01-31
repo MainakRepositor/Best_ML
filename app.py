@@ -65,13 +65,13 @@ def build_model(df):
         predictions_test["R-Squared"] = [0 if i < 0 else i for i in predictions_test["R-Squared"] ]
         plt.figure(figsize=(3, 9))
         sns.set_theme(style="darkgrid")
-        ax1 = sns.barplot(y=predictions_test.index, x="R-Squared", data=predictions_test)
+        ax1 = sns.barplot(y=predictions_test.index, x="R-Squared score", data=predictions_test)
         ax1.set(xlim=(0, 1))
     st.markdown(imagedownload(plt,'plot-r2-tall.pdf'), unsafe_allow_html=True)
         
     plt.figure(figsize=(12, 3))
     sns.set_theme(style="darkgrid")
-    ax1 = sns.barplot(x=predictions_test.index, y="R-Squared", data=predictions_test)
+    ax1 = sns.barplot(x=predictions_test.index, y="R-Squared score", data=predictions_test)
     ax1.set(ylim=(0, 1))
     plt.xticks(rotation=90)
     st.pyplot(plt)
@@ -82,12 +82,12 @@ def build_model(df):
         predictions_test["RMSE"] = [50 if i > 50 else i for i in predictions_test["RMSE"] ]
         plt.figure(figsize=(12, 9))
         sns.set_theme(style="darkgrid")
-        ax2 = sns.barplot(y=predictions_test.index, x="RMSE", data=predictions_test)
+        ax2 = sns.barplot(y=predictions_test.index, x="RMSE score", data=predictions_test)
     st.markdown(imagedownload(plt,'plot-rmse-tall.pdf'), unsafe_allow_html=True)
       
     plt.figure(figsize=(12, 3))
     sns.set_theme(style="darkgrid")
-    ax2 = sns.barplot(x=predictions_test.index, y="RMSE", data=predictions_test)
+    ax2 = sns.barplot(x=predictions_test.index, y="RMSE score", data=predictions_test)
     plt.xticks(rotation=90)
     st.pyplot(plt)
     st.markdown(imagedownload(plt,'plot-rmse-wide.pdf'), unsafe_allow_html=True)
@@ -97,12 +97,12 @@ def build_model(df):
         predictions_test["Time Taken"] = [0 if i < 0 else i for i in predictions_test["Time Taken"] ]
         plt.figure(figsize=(3, 9))
         sns.set_theme(style="darkgrid")
-        ax3 = sns.barplot(y=predictions_test.index, x="Time Taken", data=predictions_test)
+        ax3 = sns.barplot(y=predictions_test.index, x="Time Taken (in ms)", data=predictions_test)
     st.markdown(imagedownload(plt,'plot-calculation-time-tall.pdf'), unsafe_allow_html=True)
        
     plt.figure(figsize=(9, 3))
     sns.set_theme(style="darkgrid")
-    ax3 = sns.barplot(x=predictions_test.index, y="Time Taken", data=predictions_test)
+    ax3 = sns.barplot(x=predictions_test.index, y="Time Taken (in ms)", data=predictions_test)
     plt.xticks(rotation=90)
     st.pyplot(plt)
     st.markdown(imagedownload(plt,'plot-calculation-time-wide.pdf'), unsafe_allow_html=True)
