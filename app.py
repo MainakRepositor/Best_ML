@@ -11,17 +11,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import base64
 import io
-
-
 #---------------------------------#
-
-
-
-
-st.set_page_config(page_title='The Machine Learning Premier League',
+# Page layout
+## Page expands to full width
+st.set_page_config(page_title='The Machine Learning Algorithm Comparison App',
     layout='wide')
-
-
 #---------------------------------#
 # Model building
 def build_model(df):
@@ -125,50 +119,57 @@ def imagedownload(plt, filename):
 
 #---------------------------------#
 st.write("""
-# ⭐ Machine Learning Premier League. ⭐
-
-## Find the Winning Model for your dataset. 🏆🥇🥈🥉
-
+# The Machine Learning Algorithm Comparison App
+In this implementation, the **lazypredict** library is used for building several machine learning models at once.
+Developed by: [Data Professor](http://youtube.com/dataprofessor)
 """)
 
 #---------------------------------#
+# Sidebar - Collects user input features into dataframe
+with st.sidebar.header('1. Upload your CSV data'):
+    uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
+    st.sidebar.markdown("""
+[Example CSV input file](https://raw.githubusercontent.com/dataprofessor/data/master/delaney_solubility_with_descriptors.csv)
+""")
 
-with st.sidebar.header('File Uploader Section'):
-    uploaded_file = st.sidebar.file_uploader("Upload an input as CSV file", type=["csv"])
-    
+# Sidebar - Specify parameter settings
+with st.sidebar.header('2. Set Parameters'):
+    split_size = st.sidebar.slider('Data split ratio (% for Training Set)', 10, 90, 80, 5)
+    seed_number = st.sidebar.slider('Set the random seed number', 1, 100, 42, 1)
 
 
-with st.sidebar.header('Set the optimization parameters\n (Grab the slider and set to any suitable point)'):
-    
-    split_size = st.sidebar.slider('Data split ratio :', 0, 100, 70, 5)
-    seed_number = st.sidebar.slider('Set the random-seed-value :', 0, 100, 50, 1)
-    
-with st.sidebar.header('Project made by:'):
-    st.write("Made by: MAINAK CHAUDHURI")
-        
 #---------------------------------#
+# Main panel
 
-st.subheader('Dataset display')
+# Displays the dataset
+st.subheader('1. Dataset')
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-    st.markdown('**Snap of the dataset**')
+    st.markdown('**1.1. Glimpse of dataset**')
     st.write(df)
     build_model(df)
 else:
-    st.info('Upload a file')
-    st.info('OR')
-    if st.button('Use preloaded data instead'):
-        st.info("Dataset used : Pima diabetes")
+    st.info('Awaiting for CSV file to be uploaded.')
+    if st.button('Press to use Example Dataset'):
+        # Diabetes dataset
+        #diabetes = load_diabetes()
+        #X = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
+        #Y = pd.Series(diabetes.target, name='response')
+        #df = pd.concat( [X,Y], axis=1 )
 
-       
-        diabetes = load_diabetes()
-       
-        X = pd.DataFrame(diabetes.data, columns=diabetes.feature_names).loc[:100] 
-        Y = pd.Series(diabetes.target, name='response').loc[:100] 
+        #st.markdown('The Diabetes dataset is used as the example.')
+        #st.write(df.head(5))
+
+        # Boston housing dataset
+        boston = load_boston()
+        #X = pd.DataFrame(boston.data, columns=boston.feature_names)
+        #Y = pd.Series(boston.target, name='response')
+        X = pd.DataFrame(boston.data, columns=boston.feature_names).loc[:100] # FOR TESTING PURPOSE, COMMENT THIS OUT FOR PRODUCTION
+        Y = pd.Series(boston.target, name='response').loc[:100] # FOR TESTING PURPOSE, COMMENT THIS OUT FOR PRODUCTION
         df = pd.concat( [X,Y], axis=1 )
 
-        st.markdown('Displaying results form a sample preloaded data :')
+        st.markdown('The Boston housing dataset is used as the example.')
         st.write(df.head(5))
 
         build_model(df)
