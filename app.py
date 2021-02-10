@@ -101,8 +101,7 @@ def build_model(df):
     st.pyplot(plt)
     st.markdown(imagedownload(plt,'plot-calculation-time-wide.pdf'), unsafe_allow_html=True)
 
-# Download CSV data
-# https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
+
 def filedownload(df, filename):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
@@ -117,11 +116,7 @@ def imagedownload(plt, filename):
     href = f'<a href="data:image/png;base64,{b64}" download={filename}>Download {filename} File</a>'
     return href
 
-#---------------------------------#
 
-
-#---------------------------------#
-# Sidebar - Collects user input features into dataframe
 with st.sidebar.header('1. Upload your CSV data'):
     uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
 
@@ -132,8 +127,6 @@ with st.sidebar.header('2. Set Parameters'):
     seed_number = st.sidebar.slider('Set the random seed number', 1, 100, 42, 1)
 
 
-#---------------------------------#
-# Main panel
 
 # Displays the dataset
 st.subheader('1. Dataset')
@@ -144,8 +137,8 @@ if uploaded_file is not None:
     st.write(df)
     build_model(df)
 else:
-    st.info('Awaiting for CSV file to be uploaded.')
-    if st.button('Press to use Example Dataset'):
+    st.info('Upload your CSV file')
+    if st.button('Use an existing dataset'):
       
         boston = load_boston()
       
@@ -153,7 +146,7 @@ else:
         Y = pd.Series(boston.target, name='response').loc[:100] # FOR TESTING PURPOSE, COMMENT THIS OUT FOR PRODUCTION
         df = pd.concat( [X,Y], axis=1 )
 
-        st.markdown('The Boston housing dataset is used as the example.')
+        st.markdown('This is an example dataset.')
         st.write(df.head(5))
 
         build_model(df)
